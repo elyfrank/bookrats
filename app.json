@@ -29,6 +29,17 @@
     "scheme": "bookrats",
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "6ed303d1-a864-4b20-9101-a66c65a484ee"
+      }
+    },
+    "owner": "elyfranks-team"
   }
 }

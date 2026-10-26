@@ -43,5 +43,8 @@ yarn-error.*
 # chaves do Supabase
 .env
 
+# Claude Code (local)
+.claude/
+
 # IDE
 .idea/
