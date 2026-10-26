@@ -4,11 +4,12 @@ import { Alert, RefreshControl, ScrollView, Share, Text, View } from 'react-nati
 
 import { useAuth } from '@/lib/auth';
 import { getGroup, groupRanking, leaveGroup, type Group, type RankingRow } from '@/lib/db';
-import { Button, Card, colors, errorMessage, styles } from '@/lib/ui';
+import { Button, Card, errorMessage, useTheme } from '@/lib/ui';
 
 const medals = ['🥇', '🥈', '🥉'];
 
 export default function GroupScreen() {
+  const { colors, styles } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { session } = useAuth();
   const [group, setGroup] = useState<Group | null>(null);

@@ -4,7 +4,7 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } fr
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { supabase } from '@/lib/supabase';
-import { Button, Card, Input, colors, errorMessage, styles } from '@/lib/ui';
+import { Button, Card, Input, errorMessage, useTheme } from '@/lib/ui';
 
 // O Supabase devolve mensagens em inglês; traduz as mais comuns pelo código do erro.
 const authErrors: Record<string, string> = {
@@ -23,6 +23,7 @@ function authErrorMessage(e: unknown) {
 }
 
 export default function SignIn() {
+  const { colors, styles } = useTheme();
   const [mode, setMode] = useState<'login' | 'signup' | 'verify'>('login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

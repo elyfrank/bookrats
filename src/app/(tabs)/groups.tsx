@@ -3,9 +3,10 @@ import { useCallback, useState } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { createGroup, joinGroup, myGroups, type Group } from '@/lib/db';
-import { Button, Card, Input, colors, errorMessage, styles } from '@/lib/ui';
+import { Button, Card, Input, errorMessage, useTheme } from '@/lib/ui';
 
 export default function GroupsScreen() {
+  const { colors, styles } = useTheme();
   const [groups, setGroups] = useState<Group[]>([]);
   const [newName, setNewName] = useState('');
   const [code, setCode] = useState('');

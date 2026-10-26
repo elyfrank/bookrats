@@ -3,10 +3,10 @@ import { useCallback, useState } from 'react';
 import { Alert, Pressable, RefreshControl, ScrollView, Text, View } from 'react-native';
 
 import { addReading, deleteReading, myReadings, today, type ReadingLog } from '@/lib/db';
-import { supabase } from '@/lib/supabase';
-import { Button, Card, Input, colors, errorMessage, styles } from '@/lib/ui';
+import { Button, Card, Input, errorMessage, useTheme } from '@/lib/ui';
 
 export default function ReadingScreen() {
+  const { colors, styles } = useTheme();
   const [logs, setLogs] = useState<ReadingLog[]>([]);
   const [pages, setPages] = useState('');
   const [book, setBook] = useState('');
@@ -117,8 +117,6 @@ export default function ReadingScreen() {
         </Pressable>
       ))}
       {logs.length > 0 && <Text style={[styles.muted, { textAlign: 'center' }]}>Segure um item para apagá-lo.</Text>}
-
-      <Button title="Sair da conta" variant="secondary" onPress={() => supabase.auth.signOut()} />
     </ScrollView>
   );
 }

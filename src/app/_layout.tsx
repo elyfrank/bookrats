@@ -1,12 +1,12 @@
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, View } from 'react-native';
 
 import { AuthProvider, useAuth } from '@/lib/auth';
-import { colors } from '@/lib/ui';
+import { ThemeProvider, useTheme } from '@/lib/ui';
 
 function RootStack() {
   const { session, loading } = useAuth();
+  const { colors } = useTheme();
 
   if (loading) {
     return (
@@ -17,7 +17,7 @@ function RootStack() {
   }
 
   return (
-    <Stack screenOptions={{ headerTintColor: colors.primary, contentStyle: { backgroundColor: colors.bg } }}>
+    <Stack screenOptions={{ headerTintColor: colors.primary }}>
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="group/[id]" options={{ title: 'Grupo' }} />
@@ -31,9 +31,10 @@ function RootStack() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <StatusBar style="dark" />
-      <RootStack />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <RootStack />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
