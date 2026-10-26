@@ -1,6 +1,6 @@
 import { isAuthError } from '@supabase/supabase-js';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { supabase } from '@/lib/supabase';
@@ -84,8 +84,17 @@ export default function SignIn() {
           contentContainerStyle={[styles.content, { flexGrow: 1, justifyContent: 'center' }]}
           keyboardShouldPersistTaps="handled"
         >
-          <Text style={[styles.title, { fontSize: 36, textAlign: 'center' }]}>📚 Bookrats</Text>
-          <Text style={[styles.muted, { textAlign: 'center' }]}>Leia com seus amigos. Cada página vale 1 ponto.</Text>
+          <View style={{ alignItems: 'center', gap: 12 }}>
+            <Image
+              source={require('../../public/logo/logo-arredondado-512.png')}
+              style={{ width: 128, height: 128 }}
+              accessibilityLabel="Logo do BookRats"
+            />
+            <Text style={[styles.title, { fontSize: 36, fontWeight: '800' }]}>
+              Book<Text style={{ color: colors.primary }}>Rats</Text>
+            </Text>
+            <Text style={[styles.muted, { textAlign: 'center' }]}>Leia com seus amigos e suba no ranking.</Text>
+          </View>
           {mode === 'verify' ? (
             <Card>
               <Text style={styles.subtitle}>Confirme seu e-mail</Text>

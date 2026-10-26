@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 160 160" role="img" aria-label="BookRats">
+<rect width="160" height="160" rx="36" fill="#B5532F"/>
+<circle cx="54" cy="52" r="15" fill="#B9C0CD"/>
+<circle cx="54" cy="52" r="8.5" fill="#E07A52"/>
+<circle cx="106" cy="52" r="15" fill="#B9C0CD"/>
+<circle cx="106" cy="52" r="8.5" fill="#E07A52"/>
+<ellipse cx="80" cy="80" rx="31" ry="27" fill="#B9C0CD"/>
+<ellipse cx="80" cy="92" rx="14" ry="9" fill="#D3D8E1"/>
+<circle cx="80" cy="86" r="4.5" fill="#E07A52"/>
+<circle cx="68" cy="76" r="4" fill="#B5532F"/>
+<circle cx="92" cy="76" r="4" fill="#B5532F"/>
+<path d="M60 90 L44 87 M60 94 L45 96 M100 90 L116 87 M100 94 L115 96" stroke="#D3D8E1" stroke-width="2" stroke-linecap="round" fill="none"/>
+<path d="M22 104 Q51 92 80 104 L80 138 Q51 127 22 136 Z" fill="#FFF4DA"/>
+<path d="M138 104 Q109 92 80 104 L80 138 Q109 127 138 136 Z" fill="#FFF4DA"/>
+<path d="M22 136 Q51 127 80 138 Q109 127 138 136 L138 141 Q109 132 80 143 Q51 132 22 141 Z" fill="#E07A52"/>
+<path d="M80 104 L80 138" stroke="#E2CFA3" stroke-width="2"/>
+<path d="M32 112 Q50 105 70 111 M32 120 Q50 113 70 119 M90 111 Q110 105 128 112 M90 119 Q110 113 128 120" stroke="#E2CFA3" stroke-width="2" stroke-linecap="round" fill="none"/>
+<ellipse cx="64" cy="102" rx="7" ry="5" fill="#B9C0CD"/>
+<ellipse cx="96" cy="102" rx="7" ry="5" fill="#B9C0CD"/>
+</svg>

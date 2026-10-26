@@ -48,3 +48,6 @@ yarn-error.*
 
 # IDE
 .idea/
+
+# metadados do Windows ao copiar arquivos baixados
+*:Zone.Identifier

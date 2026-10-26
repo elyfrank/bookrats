@@ -4,23 +4,21 @@
     "slug": "bookrats",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./public/logo/ios-app-store-1024.png",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#B5532F",
+        "foregroundImage": "./public/logo/android-adaptive-foreground-432.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.bookrats.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./public/logo/favicon-32.png"
     },
     "plugins": [
       "expo-router",
