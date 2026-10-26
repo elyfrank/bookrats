@@ -4,6 +4,7 @@ import { Alert, RefreshControl, ScrollView, Share, Text, View } from 'react-nati
 
 import { useAuth } from '@/lib/auth';
 import { getGroup, groupRanking, leaveGroup, type Group, type RankingRow } from '@/lib/db';
+import { inviteLink } from '@/lib/invite';
 import { Button, Card, errorMessage, useTheme } from '@/lib/ui';
 
 const medals = ['🥇', '🥈', '🥉'];
@@ -82,7 +83,7 @@ export default function GroupScreen() {
             variant="secondary"
             onPress={() =>
               Share.share({
-                message: `Entra no meu grupo "${group.name}" no Bookrats! Código: ${group.invite_code}`,
+                message: `Entra no meu grupo "${group.name}" no BookRats! 📚\n${inviteLink(group.invite_code)}`,
               })
             }
           />

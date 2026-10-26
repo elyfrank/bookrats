@@ -1,12 +1,21 @@
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
 import { AuthProvider, useAuth } from '@/lib/auth';
+import { takePendingInvite } from '@/lib/invite';
 import { ThemeProvider, useTheme } from '@/lib/ui';
 
 function RootStack() {
   const { session, loading } = useAuth();
   const { colors } = useTheme();
+
+  // Convite aberto antes do login: entra no grupo assim que a pessoa fizer login.
+  useEffect(() => {
+    if (!session) return;
+    const code = takePendingInvite();
+    if (code) router.push({ pathname: '/join', params: { code } });
+  }, [session]);
 
   if (loading) {
     return (
@@ -26,6 +35,7 @@ function RootStack() {
       <Stack.Protected guard={!session}>
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       </Stack.Protected>
+      <Stack.Screen name="join" options={{ title: 'Convite' }} />
     </Stack>
   );
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { peekPendingInvite } from '@/lib/invite';
 import { supabase } from '@/lib/supabase';
 import { Button, Card, Input, errorMessage, useTheme } from '@/lib/ui';
 
@@ -95,6 +96,13 @@ export default function SignIn() {
             </Text>
             <Text style={[styles.muted, { textAlign: 'center' }]}>Leia com seus amigos e suba no ranking.</Text>
           </View>
+          {!!peekPendingInvite() && (
+            <Card>
+              <Text style={styles.text}>
+                📩 Você recebeu um convite para um grupo. Entre ou crie sua conta para participar.
+              </Text>
+            </Card>
+          )}
           {mode === 'verify' ? (
             <Card>
               <Text style={styles.subtitle}>Confirme seu e-mail</Text>

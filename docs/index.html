@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BookRats</title>
+  <meta name="description" content="Leia com seus amigos e suba no ranking." />
+  <meta property="og:title" content="Convite para o BookRats" />
+  <meta property="og:description" content="Entre no meu grupo de leitura no BookRats!" />
+  <meta property="og:image" content="https://elyfrank.github.io/bookrats/logo.png" />
+  <link rel="icon" href="favicon.png" />
+  <style>
+    :root {
+      --bg: #FAF7F2; --card: #FFFFFF; --text: #2B2118; --muted: #7A6A5C;
+      --primary: #B5532F; --on-primary: #FFFFFF; --border: #E6DDD3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17130F; --card: #221C17; --text: #F2EAE1; --muted: #A8998B;
+        --primary: #E07A52; --on-primary: #1A120D; --border: #3A3029;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      padding: 24px 16px;
+    }
+    main { width: 100%; max-width: 420px; text-align: center; display: flex; flex-direction: column; gap: 16px; }
+    img.logo { width: 112px; height: 112px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 36px; font-weight: 800; }
+    h1 span { color: var(--primary); }
+    p { margin: 0; line-height: 1.5; }
+    .muted { color: var(--muted); }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px 16px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .code { font-size: 32px; font-weight: 800; letter-spacing: 6px; color: var(--primary); }
+    .button {
+      display: block; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600;
+      text-decoration: none; background: var(--primary); color: var(--on-primary);
+    }
+    .button.secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="logo.png" alt="Logo do BookRats" />
+    <h1>Book<span>Rats</span></h1>
+    <p class="muted">Leia com seus amigos e suba no ranking.</p>
+
+    <section class="card" id="invite" hidden>
+      <p><strong>Você foi convidado para um grupo de leitura!</strong></p>
+      <p class="muted">Código do convite</p>
+      <p class="code" id="code"></p>
+      <a class="button" id="open">Abrir no BookRats</a>
+      <p class="muted" id="android-hint">
+        Se o app não abrir, instale pelo botão abaixo e toque em "Abrir no BookRats" de novo.
+        Você também pode digitar o código na aba Grupos.
+      </p>
+      <p class="muted" id="other-hint" hidden>
+        O BookRats está disponível para Android. No app, toque em Grupos → Entrar com código.
+      </p>
+    </section>
+
+    <a class="button secondary" id="download">Baixar o app para Android</a>
+  </main>
+
+  <script>
+    // Link do APK mais recente (EAS Build). Atualize a cada build novo.
+    const APK_URL = 'https://expo.dev/artifacts/eas/UKoTzCG35xHMv09NhS2vLI9RspauL_eadKPUQvznPmQ.apk';
+    const ANDROID_PACKAGE = 'com.bookrats.app';
+
+    document.getElementById('download').href = APK_URL;
+
+    // Só aceita códigos no formato gerado pelo app (6 letras/números).
+    const raw = new URLSearchParams(location.search).get('codigo') || '';
+    const code = raw.trim().toUpperCase();
+    if (/^[A-Z0-9]{6}$/.test(code)) {
+      document.getElementById('invite').hidden = false;
+      document.getElementById('code').textContent = code;
+
+      const isAndroid = /android/i.test(navigator.userAgent);
+      const open = document.getElementById('open');
+      if (isAndroid) {
+        // Abre o app pelo link bookrats://join?code=...; sem o app instalado, o Chrome baixa o APK.
+        open.href = 'intent://join?code=' + code + '#Intent;scheme=bookrats;package=' + ANDROID_PACKAGE +
+          ';S.browser_fallback_url=' + encodeURIComponent(APK_URL) + ';end';
+      } else {
+        open.hidden = true;
+        document.getElementById('android-hint').hidden = true;
+        document.getElementById('other-hint').hidden = false;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -14,6 +14,9 @@ páginas leu por dia e ganha 1 ponto por página; grupos entram por código de c
 - Chaves em `.env` (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`). O Expo só lê
   variáveis com prefixo `EXPO_PUBLIC_`.
 - Consultas ao banco ficam em `src/lib/db.ts`; telas em `src/app/`.
+- Convites: link `https://elyfrank.github.io/bookrats/?codigo=XXXXXX` (página em `docs/index.html`, GitHub
+  Pages) abre o app em `bookrats://join?code=...` (`src/app/join.tsx`). A cada build novo do APK, atualizar
+  `APK_URL` em `docs/index.html`.
 
 ## Ambiente
 
