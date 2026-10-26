@@ -169,3 +169,7 @@ npx tsc --noEmit          # checagem de tipos
 npx expo lint             # lint
 npx expo-doctor           # diagnóstico de dependências e configuração
 ```
+
+## Licença
+
+[MIT](LICENSE) © 2026 Ely Frank
