@@ -5,8 +5,12 @@
 App Android (Expo + React Native + TypeScript) de leitura em grupo: a pessoa registra quantas
 páginas leu por dia e ganha 1 ponto por página; grupos entram por código de convite e têm ranking.
 
-- Backend: Supabase (auth por e-mail/senha). Esquema e regras RLS em `supabase/schema.sql` —
-  qualquer mudança no banco vai nesse arquivo e precisa ser rodada manualmente no SQL Editor.
+- Backend: Supabase (auth por e-mail/senha). Banco em `supabase/migrations/NNN_nome.sql`: cada
+  mudança é uma migração nova (nunca editar uma já aplicada). O projeto está ligado pelo Supabase CLI:
+  `npx supabase migration list --linked` mostra o que falta e `npx supabase db push --linked --dry-run`
+  seguido de `npx supabase db push --linked --yes` aplica. Testar o SQL antes (ex.: PGlite) e confirmar com o
+  usuário antes de aplicar, pois altera o banco de produção.
+- Pontuação é calculada no banco (função `score_days`, migração 004; ranking conta só desde a entrada no grupo), nunca no app.
 - Chaves em `.env` (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`). O Expo só lê
   variáveis com prefixo `EXPO_PUBLIC_`.
 - Consultas ao banco ficam em `src/lib/db.ts`; telas em `src/app/`.

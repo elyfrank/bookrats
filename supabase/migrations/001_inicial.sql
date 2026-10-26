@@ -1,5 +1,5 @@
--- Bookrats: esquema do banco.
--- Cole este arquivo inteiro no Supabase em "SQL Editor" > "New query" e clique em "Run".
+-- Bookrats: esquema inicial do banco (já aplicado).
+-- Cole no Supabase em "SQL Editor" > "New query" e clique em "Run".
 
 -- Perfil público de cada usuário (nome exibido nos rankings).
 create table public.profiles (

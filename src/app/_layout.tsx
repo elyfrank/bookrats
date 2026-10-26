@@ -21,6 +21,7 @@ function RootStack() {
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="group/[id]" options={{ title: 'Grupo' }} />
+        <Stack.Screen name="rules" options={{ title: 'Como funciona a pontuação' }} />
       </Stack.Protected>
       <Stack.Protected guard={!session}>
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />

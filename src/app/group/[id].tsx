@@ -35,6 +35,8 @@ export default function GroupScreen() {
 
   const points = (r: RankingRow) => (period === 'total' ? r.total_points : r.week_points);
   const sorted = [...ranking].sort((a, b) => points(b) - points(a));
+  const myRow = ranking.find((r) => r.user_id === session?.user.id);
+  const myJoin = myRow ? new Date(myRow.joined_at) : null;
 
   function confirmLeave() {
     Alert.alert('Sair do grupo?', group?.name, [
@@ -87,6 +89,13 @@ export default function GroupScreen() {
         </Card>
       )}
 
+      {myJoin && (
+        <Text style={styles.muted}>
+          No grupo só contam as leituras registradas depois que cada pessoa entrou. Você entrou em{' '}
+          {myJoin.toLocaleDateString('pt-BR')}.
+        </Text>
+      )}
+
       <View style={styles.row}>
         <View style={{ flex: 1 }}>
           <Button
@@ -115,6 +124,7 @@ export default function GroupScreen() {
               <Text style={{ flex: 1, fontSize: 16, color: colors.text, fontWeight: isMe ? '700' : '400' }}>
                 {r.name}
                 {isMe ? ' (você)' : ''}
+                {r.streak_days > 0 && <Text style={{ color: colors.muted }}>{`  🔥 ${r.streak_days}`}</Text>}
               </Text>
               <Text style={{ color: colors.primary, fontWeight: '700', fontSize: 16 }}>{points(r)} pts</Text>
             </View>

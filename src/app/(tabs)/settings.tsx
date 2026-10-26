@@ -1,4 +1,5 @@
 import Constants from 'expo-constants';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, View } from 'react-native';
 
@@ -75,6 +76,8 @@ export default function SettingsScreen() {
         </View>
         <Text style={styles.muted}>&quot;Sistema&quot; segue o modo claro/escuro do celular.</Text>
       </Card>
+
+      <Button title="Regras de pontuação" variant="secondary" onPress={() => router.push('/rules')} />
 
       <Button title="Sair da conta" variant="danger" onPress={confirmSignOut} />
 
