@@ -1,4 +1,3 @@
-import type { Session } from '@supabase/supabase-js';
 import { isRunningInExpoGo } from 'expo';
 import Constants from 'expo-constants';
 import type { NotificationResponse } from 'expo-notifications';
@@ -9,8 +8,9 @@ import { Platform } from 'react-native';
 import { supabase } from './supabase';
 
 // O Expo Go no Android não tem os módulos nativos de push: só carregar expo-notifications já
-// derruba o app. Lá as notificações ficam desligadas; no APK funcionam normalmente.
-const Notifications: typeof import('expo-notifications') | null = isRunningInExpoGo()
+// derruba o app. Lá (e na web) as notificações ficam desligadas; no APK funcionam normalmente.
+const Notifications: typeof import('expo-notifications') | null =
+  isRunningInExpoGo() || Platform.OS === 'web'
   ? null
   : // eslint-disable-next-line @typescript-eslint/no-require-imports -- import condicional (ver acima)
     require('expo-notifications');
@@ -26,10 +26,13 @@ Notifications?.setNotificationHandler({
 });
 
 let currentToken: string | null = null;
+// Usuário cujo aparelho já foi registrado nesta execução do app (evita pedir permissão de novo).
+let registeredFor: string | null = null;
 
 // Pede permissão e registra o token deste aparelho no banco (quem envia é o banco, ver migração 006).
-async function registerForPush() {
-  if (!Notifications) return;
+async function registerForPush(userId: string) {
+  if (!Notifications || registeredFor === userId) return;
+  registeredFor = userId;
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
       name: 'Leituras dos amigos',
@@ -52,6 +55,7 @@ export async function unregisterForPush() {
   if (!currentToken) return;
   await supabase.rpc('unregister_push_token', { push_token: currentToken });
   currentToken = null;
+  registeredFor = null;
 }
 
 // Ao tocar na notificação, abre o grupo indicado nela.
@@ -62,15 +66,17 @@ function openFromNotification(response: NotificationResponse | null) {
   router.push(url as Href);
 }
 
-export function useNotifications(session: Session | null) {
+// Depende só do id do usuário: a sessão é renovada periodicamente (e ao voltar do pedido de
+// permissão), e reagir a cada renovação pedia permissão de novo, em ciclo.
+export function useNotifications(userId: string | undefined) {
   useEffect(() => {
-    if (!session || !Notifications) return;
+    if (!userId || !Notifications) return;
     // Sem permissão ou sem internet: o app segue funcionando sem avisos.
-    registerForPush().catch((e) => console.warn('Notificações indisponíveis:', e));
+    registerForPush(userId).catch((e) => console.warn('Notificações indisponíveis:', e));
 
     // Notificação que abriu o app (estava fechado) e as tocadas com o app aberto.
     openFromNotification(Notifications.getLastNotificationResponse());
     const subscription = Notifications.addNotificationResponseReceivedListener(openFromNotification);
     return () => subscription.remove();
-  }, [session]);
+  }, [userId]);
 }

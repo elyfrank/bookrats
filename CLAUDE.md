@@ -15,7 +15,7 @@ páginas leu por dia e ganha 1 ponto por página; grupos entram por código de c
   variáveis com prefixo `EXPO_PUBLIC_`.
 - Consultas ao banco ficam em `src/lib/db.ts`; telas em `src/app/`.
 - Convites: link `https://elyfrank.github.io/bookrats/?codigo=XXXXXX` (página em `docs/index.html`, GitHub
-  Pages) abre o app em `bookrats://join?code=...` (`src/app/join.tsx`). A cada build novo do APK, atualizar
+  Pages) abre o app em `bookrats://join?code=...`, tratado em `src/app/+native-intent.tsx` (guarda o código) e no `RootStack` de `src/app/_layout.tsx` (entra no grupo quando há login; nunca redirecionar a partir de uma tela aberta pelo link: causava loop no Android). A cada build novo do APK, atualizar
   `APK_URL` em `docs/index.html`.
 
 ## Ambiente

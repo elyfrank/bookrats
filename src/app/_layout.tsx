@@ -1,23 +1,41 @@
 import { Stack, router } from 'expo-router';
 import { useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 
 import { AuthProvider, useAuth } from '@/lib/auth';
-import { takePendingInvite } from '@/lib/invite';
+import { joinGroup } from '@/lib/db';
+import { onPendingInvite, takePendingInvite } from '@/lib/invite';
 import { useNotifications } from '@/lib/notifications';
-import { ThemeProvider, useTheme } from '@/lib/ui';
+import { ThemeProvider, errorMessage, useTheme } from '@/lib/ui';
 
 function RootStack() {
   const { session, loading } = useAuth();
   const { colors } = useTheme();
-  useNotifications(session);
+  const userId = session?.user.id;
+  useNotifications(userId);
 
-  // Convite aberto antes do login: entra no grupo assim que a pessoa fizer login.
+  // Convite recebido por link (ver +native-intent.tsx): entra no grupo assim que houver alguém
+  // logado, e também quando um link chega com o app já aberto. O código é descartado antes de
+  // tentar, então um convite inválido avisa uma vez só.
   useEffect(() => {
-    if (!session) return;
-    const code = takePendingInvite();
-    if (code) router.push({ pathname: '/join', params: { code } });
-  }, [session]);
+    if (!userId) return;
+    let busy = false;
+    const handleInvite = () => {
+      if (busy) return;
+      const code = takePendingInvite();
+      if (!code) return;
+      busy = true;
+      joinGroup(code)
+        .then((group) => router.push({ pathname: '/group/[id]', params: { id: group.id } }))
+        .catch((e) => Alert.alert('Convite', errorMessage(e)))
+        .finally(() => {
+          busy = false;
+          handleInvite();
+        });
+    };
+    handleInvite();
+    return onPendingInvite(handleInvite);
+  }, [userId]);
 
   if (loading) {
     return (
@@ -37,7 +55,6 @@ function RootStack() {
       <Stack.Protected guard={!session}>
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
       </Stack.Protected>
-      <Stack.Screen name="join" options={{ title: 'Convite' }} />
     </Stack>
   );
 }

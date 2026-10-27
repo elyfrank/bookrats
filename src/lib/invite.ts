@@ -4,15 +4,18 @@ import 'expo-sqlite/localStorage/install';
 const INVITE_PAGE_URL = 'https://elyfrank.github.io/bookrats/';
 const PENDING_KEY = 'bookrats.pendingInvite';
 
+const listeners = new Set<() => void>();
+
 export function inviteLink(code: string) {
   return `${INVITE_PAGE_URL}?codigo=${encodeURIComponent(code)}`;
 }
 
-// Convite aberto antes do login: fica guardado e é usado logo depois que a pessoa entra.
+// Convite recebido por link: fica guardado até haver alguém logado para entrar no grupo.
 export function savePendingInvite(code: string) {
   try {
     localStorage.setItem(PENDING_KEY, code);
   } catch {}
+  listeners.forEach((listener) => listener());
 }
 
 export function peekPendingInvite() {
@@ -29,4 +32,12 @@ export function takePendingInvite() {
     localStorage.removeItem(PENDING_KEY);
   } catch {}
   return code;
+}
+
+// Avisa quando chega um convite novo com o app já aberto.
+export function onPendingInvite(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
