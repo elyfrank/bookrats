@@ -4,11 +4,13 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { AuthProvider, useAuth } from '@/lib/auth';
 import { takePendingInvite } from '@/lib/invite';
+import { useNotifications } from '@/lib/notifications';
 import { ThemeProvider, useTheme } from '@/lib/ui';
 
 function RootStack() {
   const { session, loading } = useAuth();
   const { colors } = useTheme();
+  useNotifications(session);
 
   // Convite aberto antes do login: entra no grupo assim que a pessoa fizer login.
   useEffect(() => {

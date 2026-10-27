@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "156855384326",
+    "project_id": "bookrats-a8e5c",
+    "storage_bucket": "bookrats-a8e5c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156855384326:android:52f550ddb7aec2e2594687",
+        "android_client_info": {
+          "package_name": "com.bookrats.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzdxM7a7ybOQGc86VzzRbKKGiCJ8CptGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

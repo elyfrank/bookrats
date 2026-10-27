@@ -36,9 +36,24 @@ export function today(offsetDays = 0) {
 }
 
 export async function getProfile(userId: string) {
-  const { data, error } = await supabase.from('profiles').select('name').eq('id', userId).single();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('name, notify_readings, notify_joins')
+    .eq('id', userId)
+    .single();
   if (error) throw error;
-  return data as { name: string };
+  return data as Profile;
+}
+
+export type Profile = { name: string; notify_readings: boolean; notify_joins: boolean };
+export type NotifyPref = 'notify_readings' | 'notify_joins';
+
+export async function setNotifyPref(userId: string, pref: NotifyPref, enabled: boolean) {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ [pref]: enabled })
+    .eq('id', userId);
+  if (error) throw error;
 }
 
 export async function updateName(userId: string, name: string) {
